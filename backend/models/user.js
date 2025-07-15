@@ -6,7 +6,14 @@ const userSchema = new mongoose.Schema({
   password: String,
   age: Number,
   gender: String,
-  bio: String,
+  bio: { type: String, default: '', required: false },
+  profilePhoto: { type: String, default: '' }, // Foto de perfil principal
+  photos: [{ type: String, default: [] }], // Fotos adicionales (máximo 4)
+  preferences: {
+    lookingFor: { type: String, default: '' }, // Qué busca
+    interests: [{ type: String, default: [] }], // Intereses/hobbies
+    location: { type: String, default: '' }
+  },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   matches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });

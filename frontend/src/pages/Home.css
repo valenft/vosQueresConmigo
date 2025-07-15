@@ -1,0 +1,71 @@
+.home-bg {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffe0ec 100%);
+}
+.home-card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  text-align: center;
+}
+.home-emoji {
+  font-size: 60px;
+  margin-bottom: 10px;
+}
+.home-title {
+  margin: 0;
+  font-size: 36px;
+  color: #e75480;
+}
+.home-desc {
+  color: #555;
+  margin: 16px 0 32px;
+}
+.btn-primary {
+  background: #e75480;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 18px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-secondary {
+  background: #fff;
+  color: #e75480;
+  border: 2px solid #e75480;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 18px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.home-logo {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 10px;
+}
+
+.home-footer {
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 16px 0 10px 0;
+  background: transparent;
+  color: #e75480;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  z-index: 10;
+  pointer-events: none;
+} 

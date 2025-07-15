@@ -1,0 +1,99 @@
+.register-bg {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ffe0ec 0%, #f8fafc 100%);
+}
+
+.register-card {
+  background: white;
+  padding: 48px 36px 36px 36px;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(231, 84, 128, 0.10);
+  text-align: center;
+  min-width: 340px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.7s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.register-logo {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 18px;
+}
+
+.register-title {
+  color: #e75480;
+  font-size: 32px;
+  margin-bottom: 28px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.register-input {
+  color: #222;
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border-radius: 10px;
+  border: 1.5px solid #e0e0e0;
+  font-size: 17px;
+  outline: none;
+  background: #f8fafc;
+  transition: border 0.2s, background 0.2s;
+  /* El select también usará esta clase */
+}
+
+.register-input:focus {
+  border: 2px solid #e75480;
+  background: #fff0f6;
+}
+
+.register-btn {
+  background: #e75480;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 0;
+  width: 100%;
+  font-size: 19px;
+  margin: 22px 0 10px 0;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(231, 84, 128, 0.08);
+  transition: background 0.2s, transform 0.1s;
+}
+
+.register-btn:hover {
+  background: #d13c6b;
+  transform: translateY(-2px) scale(1.03);
+}
+
+.register-message {
+  color: #e75480;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.register-link {
+  margin-top: 10px;
+  color: #555;
+  font-size: 15px;
+}
+
+.register-link span {
+  color: #e75480;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: bold;
+}

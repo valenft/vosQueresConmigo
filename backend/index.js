@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 // Endpoint para registrar un nuevo usuario
 app.post('/register', async (req, res) => {
   try {
-    const { name, email, password, age, gender, bio } = req.body;
+    const { name, email, password, age, gender } = req.body;
 
     // Validar que el email no esté registrado
     const existingUser = await User.findOne({ email });
@@ -46,8 +46,8 @@ app.post('/register', async (req, res) => {
       email,
       password: hashedPassword,
       age,
-      gender,
-      bio
+      gender
+      // bio se creará automáticamente como string vacío por el default del modelo
     });
     await newUser.save();
 
@@ -159,6 +159,85 @@ app.get('/perfil', authMiddleware, async (req, res) => {
   res.json(user);
 });
 
-app.listen(3001, () => {
-  console.log('Servidor escuchando en http://localhost:3001');
+// Endpoint para obtener usuarios para mostrar (excluye al usuario logueado)
+app.get('/usuarios', authMiddleware, async (req, res) => {
+  try {
+    const currentUserId = req.user.userId;
+    
+    // Obtener usuarios que no sean el usuario actual
+    const usuarios = await User.find({ 
+      _id: { $ne: currentUserId } 
+    }).select('name age gender bio profilePhoto photos preferences');
+    
+    res.json(usuarios);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener usuarios' });
+  }
 });
+
+// Endpoint para obtener un usuario específico por ID
+app.get('/usuarios/:userId', authMiddleware, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const usuario = await User.findById(userId).select('name age gender bio profilePhoto photos preferences');
+    
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+    
+    res.json(usuario);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener usuario' });
+  }
+});
+
+// Endpoint para actualizar el perfil del usuario
+app.put('/perfil', authMiddleware, async (req, res) => {
+  try {
+    const { name, age, gender, bio, profilePhoto, photos, preferences } = req.body;
+    
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    // Actualizar los campos básicos
+    user.name = name;
+    user.age = age;
+    user.gender = gender;
+    user.bio = bio;
+    
+    // Actualizar foto de perfil si se proporciona
+    if (profilePhoto !== undefined) {
+      user.profilePhoto = profilePhoto;
+    }
+    
+    // Actualizar fotos adicionales si se proporcionan
+    if (photos) {
+      user.photos = photos;
+    }
+    
+    // Actualizar preferencias si se proporcionan
+    if (preferences) {
+      user.preferences = {
+        lookingFor: preferences.lookingFor || '',
+        interests: preferences.interests || [],
+        location: preferences.location || ''
+      };
+    }
+
+    await user.save();
+    
+    res.json({ message: 'Perfil actualizado exitosamente', user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al actualizar perfil' });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en http://localhost:${PORT}`);
+});
+
