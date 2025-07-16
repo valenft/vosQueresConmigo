@@ -149,6 +149,9 @@ export default function MainScreen() {
           <button className="header-btn" onClick={() => navigate('/profile')}>
             👤
           </button>
+          <button className="header-btn" onClick={() => navigate('/matches')} title="Ver matches y chats">
+           💬
+          </button>
           <button className="header-btn" onClick={handleLogout}>
             🚪
           </button>

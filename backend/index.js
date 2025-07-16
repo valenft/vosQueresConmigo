@@ -16,6 +16,7 @@ app.use(cors())
 // Importar el modelo de usuario
 const User = require('./models/user');
 const authMiddleware = require('./authMiddleware');
+const Message = require('./models/message');
 require('dotenv').config();
 
 console.log('JWT_TOKEN:', process.env.JWT_TOKEN);
@@ -234,6 +235,51 @@ app.put('/perfil', authMiddleware, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error al actualizar perfil' });
+  }
+});
+
+// Enviar un mensaje a un usuario con el que se tiene match
+app.post('/messages', authMiddleware, async (req, res) => {
+  try {
+    const from = req.user.userId;
+    const { to, content } = req.body;
+    if (!to || !content) {
+      return res.status(400).json({ error: 'Faltan datos requeridos' });
+    }
+    // Verificar que ambos usuarios tienen match
+    const fromUser = await User.findById(from);
+    if (!fromUser.matches.includes(to)) {
+      return res.status(403).json({ error: 'Solo puedes chatear con tus matches' });
+    }
+    const message = new Message({ from, to, content });
+    await message.save();
+    res.status(201).json({ message: 'Mensaje enviado', data: message });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al enviar mensaje' });
+  }
+});
+
+// Obtener mensajes entre el usuario logueado y otro usuario (solo si son match)
+app.get('/messages/:userId', authMiddleware, async (req, res) => {
+  try {
+    const from = req.user.userId;
+    const to = req.params.userId;
+    // Verificar que ambos usuarios tienen match
+    const fromUser = await User.findById(from);
+    if (!fromUser.matches.includes(to)) {
+      return res.status(403).json({ error: 'Solo puedes ver mensajes con tus matches' });
+    }
+    const messages = await Message.find({
+      $or: [
+        { from, to },
+        { from: to, to: from }
+      ]
+    }).sort({ timestamp: 1 });
+    res.json({ messages });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener mensajes' });
   }
 });
 
