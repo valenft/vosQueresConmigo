@@ -145,13 +145,24 @@ export default function ChatScreen() {
   return (
     <div className="main-bg">
       <div className="main-header">
-        <img src="/logo.png" alt="Logo" className="main-logo" />
+        <button className="header-btn" onClick={() => navigate('/matches')}>⬅️</button>
+        {matchUser && (
+          <img
+            src={matchUser.profilePhoto || '/default-profile.png'}
+            alt={matchUser.name}
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: '50%',
+              objectFit: 'cover',
+              marginRight: 12,
+              border: '2px solid #e75480'
+            }}
+          />
+        )}
         <h1 style={{ fontSize: 18, flex: 1 }}>
           {matchUser ? `Chat con ${matchUser.name}` : 'Chat'}
         </h1>
-        <div className="header-actions">
-          <button className="header-btn" onClick={() => navigate('/matches')}>⬅️</button>
-        </div>
       </div>
       <div style={{ width: '100%', maxWidth: 400, margin: '0 auto', background: 'white', borderRadius: 16, padding: 16, boxShadow: '0 4px 16px rgba(231, 84, 128, 0.08)' }}>
         {loading ? (

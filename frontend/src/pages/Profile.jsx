@@ -229,7 +229,7 @@ export default function Profile() {
               <button className="profile-btn" onClick={() => setIsEditing(true)}>
                 Modificar Perfil
               </button>
-              <button className="profile-btn-secondary" onClick={() => navigate('/home')}>
+              <button className="profile-btn-secondary" onClick={() => navigate('/main')}>
                 Ir al Inicio
               </button>
               <button className="profile-btn-logout" onClick={handleLogout}>

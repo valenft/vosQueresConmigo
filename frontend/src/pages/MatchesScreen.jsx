@@ -57,7 +57,7 @@ export default function MatchesScreen() {
         <img src="/logo.png" alt="Logo" className="main-logo" />
         <h1>Chats & Matches</h1>
         <div className="header-actions">
-          <button className="header-btn" onClick={() => navigate('/')}>⬅️</button>
+          <button className="header-btn" onClick={() => navigate('/main')}>⬅️</button>
         </div>
       </div>
       <div style={{ width: '100%', maxWidth: 400 }}>
